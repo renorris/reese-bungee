@@ -1,0 +1,7 @@
+# ReeseBungee configuration
+
+# Discord bot secret token
+bot-token: put-token-here
+
+# Discord status feed text channel ID
+status-feed: 746662615593517126

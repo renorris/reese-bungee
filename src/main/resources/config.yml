@@ -5,3 +5,6 @@ bot-token: put-token-here
 
 # Discord status feed text channel ID
 status-feed: 746662615593517126
+
+# Discord to minecraft chat channel ID
+chat-channel: 770427631426338837

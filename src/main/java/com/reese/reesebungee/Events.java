@@ -1,9 +1,7 @@
 package com.reese.reesebungee;
 
+import com.reese.reesebungee.discord.Format;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.*;
 import net.md_5.bungee.api.plugin.Listener;
@@ -30,7 +28,7 @@ public class Events implements Listener {
         msg.append(" joined ");
         msg.append(ChatColor.GREEN);
         msg.append(serverName);
-        broadcastToPlayers(msg.toString());
+        this.reeseBungee.broadcastToPlayers(msg.toString());
         this.reeseBungee.discord.playerServerConnect(playerName, serverName);
     }
 
@@ -44,7 +42,7 @@ public class Events implements Listener {
         msg.append(ChatColor.RESET);
         msg.append(ChatColor.YELLOW);
         msg.append(" disconnected");
-        broadcastToPlayers(msg.toString());
+        this.reeseBungee.broadcastToPlayers(msg.toString());
         this.reeseBungee.discord.playerLeave(playerName);
     }
 
@@ -58,7 +56,7 @@ public class Events implements Listener {
         msg.append(ChatColor.RESET);
         msg.append(ChatColor.YELLOW);
         msg.append(" connected");
-        broadcastToPlayers(msg.toString());
+        this.reeseBungee.broadcastToPlayers(msg.toString());
         this.reeseBungee.discord.playerLogin(playerName);
     }
 
@@ -66,11 +64,12 @@ public class Events implements Listener {
     public void onChat(ChatEvent event) {
         if (!event.isCommand()) {
             ProxiedPlayer playerSender = (ProxiedPlayer) event.getSender();
+            String serverName = playerSender.getServer().getInfo().getName();
             StringBuilder msg = new StringBuilder();
             msg.append(ChatColor.GRAY);
             msg.append("[");
             msg.append(ChatColor.GREEN);
-            msg.append(playerSender.getServer().getInfo().getName());
+            msg.append(serverName);
             msg.append(ChatColor.RESET);
             msg.append(ChatColor.GRAY);
             msg.append("] ");
@@ -81,15 +80,16 @@ public class Events implements Listener {
             msg.append("> ");
             msg.append(ChatColor.RESET);
             msg.append(event.getMessage());
-            broadcastToPlayers(msg.toString());
-            event.setCancelled(true);
-        }
-    }
+            this.reeseBungee.broadcastToPlayers(msg.toString());
 
-    public void broadcastToPlayers(String msg) {
-        TextComponent textComponent = new TextComponent(msg);
-        for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
-            p.sendMessage(ChatMessageType.CHAT, textComponent);
+            // discord
+            StringBuilder str = new StringBuilder("[" + serverName + "] ");
+            str.append(Format.bold(playerSender.getDisplayName()));
+            str.append(": ");
+            str.append(event.getMessage());
+            this.reeseBungee.discord.sendChatMessage(str.toString());
+
+            event.setCancelled(true);
         }
     }
 }

@@ -86,7 +86,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <outputDirectory>/home/rnorris/waterfalltest/plugins</outputDirectory>
+                    <outputDirectory>C:\Users\Reese Norris\IdeaProjects\reese-bungee</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

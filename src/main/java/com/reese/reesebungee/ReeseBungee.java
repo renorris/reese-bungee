@@ -1,6 +1,10 @@
 package com.reese.reesebungee;
 
 import com.reese.reesebungee.discord.Discord;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -42,6 +46,13 @@ public class ReeseBungee extends Plugin {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void broadcastToPlayers(String msg) {
+        TextComponent textComponent = new TextComponent(msg);
+        for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+            p.sendMessage(ChatMessageType.CHAT, textComponent);
         }
     }
 

@@ -8,16 +8,14 @@ import net.md_5.bungee.api.ChatColor;
 public class DiscordChatListener extends ListenerAdapter {
 
     ReeseBungee reeseBungee;
-    long channelID;
 
     public DiscordChatListener(ReeseBungee reeseBungee) {
         this.reeseBungee = reeseBungee;
-        this.channelID = this.reeseBungee.config.getLong("chat-channel");
     }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (event.getChannel().getIdLong() == this.channelID && !event.getAuthor().equals(this.reeseBungee.discord.jda.getSelfUser())) {
+        if (event.getChannel().getIdLong() == this.reeseBungee.discord.mainChannelID && !event.getAuthor().equals(this.reeseBungee.discord.jda.getSelfUser())) {
             StringBuilder str = new StringBuilder(String.valueOf(ChatColor.DARK_PURPLE));
             str.append("[Discord] ");
             str.append(ChatColor.RESET);

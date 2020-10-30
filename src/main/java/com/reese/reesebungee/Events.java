@@ -15,7 +15,7 @@ public class Events implements Listener {
         this.reeseBungee = reeseBungee;
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onServerConnected(ServerConnectedEvent event) {
         String playerName = event.getPlayer().getName();
         String serverName = event.getServer().getInfo().getName();
@@ -30,7 +30,7 @@ public class Events implements Listener {
         msg.append(serverName);
         this.reeseBungee.broadcastToPlayers(msg.toString());
         this.reeseBungee.discord.playerServerConnect(playerName, serverName);
-    }
+    }*/
 
     @EventHandler
     public void onPlayerDisconnect(PlayerDisconnectEvent event) {
@@ -65,6 +65,8 @@ public class Events implements Listener {
         if (!event.isCommand()) {
             ProxiedPlayer playerSender = (ProxiedPlayer) event.getSender();
             String serverName = playerSender.getServer().getInfo().getName();
+            String playerName = playerSender.getName();
+
             StringBuilder msg = new StringBuilder();
             msg.append(ChatColor.GRAY);
             msg.append("[");
@@ -75,19 +77,14 @@ public class Events implements Listener {
             msg.append("] ");
             msg.append("<");
             msg.append(ChatColor.WHITE);
-            msg.append(playerSender.getName());
+            msg.append(playerName);
             msg.append(ChatColor.GRAY);
             msg.append("> ");
             msg.append(ChatColor.RESET);
             msg.append(event.getMessage());
-            this.reeseBungee.broadcastToPlayers(msg.toString());
 
-            // discord
-            StringBuilder str = new StringBuilder("[" + serverName + "] ");
-            str.append(Format.bold(playerSender.getDisplayName()));
-            str.append(": ");
-            str.append(event.getMessage());
-            this.reeseBungee.discord.sendChatMessage(str.toString());
+            this.reeseBungee.broadcastToPlayers(msg.toString());
+            this.reeseBungee.discord.playerChat(playerName, event.getMessage());
 
             event.setCancelled(true);
         }
